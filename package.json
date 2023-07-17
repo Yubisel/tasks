@@ -14,5 +14,8 @@
   "license": "ISC",
   "workspaces": [
     "apps/*"
-  ]
+  ],
+  "devDependencies": {
+    "turbo": "^1.10.8"
+  }
 }
