@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev",
+    "api:dev": "turbo run api#dev",
+    "client:dev": "turbo run client#dev",
     "build": "turbo build",
     "start": "node apps/api/dist/main.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yubisel/nest-react-turborepo-template"
+    "url": "https://github.com/Yubisel/tasks"
   },
   "author": "Ing. Yubisel Vega Alvarez",
   "license": "ISC",
