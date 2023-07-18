@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev",
-    "api:dev": "turbo run api#dev",
-    "client:dev": "turbo run client#dev",
+    "api:dev": "turbo run dev --filter=api",
+    "client:dev": "turbo run dev --filter=client",
     "build": "turbo build",
-    "start": "node apps/api/dist/main.js"
+    "start": "node apps/api/dist/main.js",
+    "clean:dist": "turbo run clean:dist"
   },
   "repository": {
     "type": "git",
