@@ -12,7 +12,6 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Task } from './entities/task.entity';
-import { ValidationError } from 'class-validator';
 
 @ApiTags('Tasks')
 @Controller('tasks')
@@ -26,7 +25,6 @@ export class TasksController {
   })
   @ApiBadRequestResponse({
     description: 'Error creating task',
-    // type:
   })
   @Post()
   create(@Body() createTaskDto: CreateTaskDto) {

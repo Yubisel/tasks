@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TASK_TATUS, Task } from './entities/task.entity';
@@ -36,7 +36,12 @@ export class TasksService {
 
   update(id: string, updateTaskDto: UpdateTaskDto): Task {
     const task = this.findById(id);
-    if (!task) throw 'Resource not found';
+    if (!task) {
+      throw new NotFoundException(['Task not found'], {
+        cause: new Error(),
+        description: 'Resouce not found',
+      });
+    }
     const updatedTask = Object.assign(task, updateTaskDto);
     this.tasks = this.tasks.map((task) =>
       task.id === id ? updatedTask : task,
