@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export enum TASK_TATUS {
   PENDING = 'PENDING',
@@ -6,19 +7,30 @@ export enum TASK_TATUS {
   DONE = 'DONE',
 }
 
+@Schema({
+  timestamps: true,
+})
 export class Task {
   @ApiProperty({
     description: 'Task id',
   })
-  id: string;
+  _id: string;
 
   @ApiProperty({
     description: 'Task title',
+  })
+  @Prop({
+    unique: true,
+    required: true,
+    trim: true,
   })
   title: string;
 
   @ApiProperty({
     description: 'Task description',
+  })
+  @Prop({
+    trim: true,
   })
   description: string;
 
@@ -26,5 +38,21 @@ export class Task {
     description: 'Task status',
     enum: TASK_TATUS,
   })
+  @Prop({
+    default: TASK_TATUS.PENDING,
+    enum: TASK_TATUS,
+  })
   status: TASK_TATUS;
+
+  @ApiProperty({
+    description: 'Task create date',
+  })
+  createdAt: string;
+
+  @ApiProperty({
+    description: 'Task last update date',
+  })
+  updatedAt: string;
 }
+
+export const TaskSchema = SchemaFactory.createForClass(Task);

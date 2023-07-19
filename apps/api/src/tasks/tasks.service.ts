@@ -1,55 +1,37 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { TASK_TATUS, Task } from './entities/task.entity';
+import { Task } from './entities/task.entity';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class TasksService {
-  // Simulated db
-  private tasks: Task[] = [
-    {
-      id: '7de0428b-4d8d-49c6-9932-ae40d85be7ea',
-      title: 'some title',
-      description: 'some description',
-      status: TASK_TATUS.PENDING,
-    },
-  ];
+  constructor(@InjectModel(Task.name) private taskModel: Model<Task>) {}
 
-  create(createTaskDto: CreateTaskDto): Task {
-    const task: Task = {
-      id: uuidv4(),
-      ...createTaskDto,
-      status: TASK_TATUS.PENDING,
-    };
-    this.tasks.push(task);
-    return task;
+  async create(createTaskDto: CreateTaskDto): Promise<Task> {
+    return await this.taskModel.create(createTaskDto);
   }
 
-  findAll(): Task[] {
-    return this.tasks;
+  async findAll(): Promise<Task[]> {
+    return await this.taskModel.find();
   }
 
-  findById(id: string): Task | null {
-    return this.tasks.find((task) => task.id === id) || null;
+  async findById(id: string): Promise<Task> {
+    return await this.taskModel.findById(id);
   }
 
-  update(id: string, updateTaskDto: UpdateTaskDto): Task {
-    const task = this.findById(id);
-    if (!task) {
-      throw new NotFoundException(['Task not found'], {
-        cause: new Error(),
-        description: 'Resouce not found',
-      });
-    }
-    const updatedTask = Object.assign(task, updateTaskDto);
-    this.tasks = this.tasks.map((task) =>
-      task.id === id ? updatedTask : task,
-    );
-    return updatedTask;
+  async findByTitle(title: string): Promise<Task> {
+    return await this.taskModel.findOne({ title });
   }
 
-  remove(id: string): void {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+  async update(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
+    return await this.taskModel.findByIdAndUpdate(id, updateTaskDto, {
+      new: true,
+    });
+  }
+
+  async delete(id: string): Promise<Task> {
+    return await this.taskModel.findByIdAndDelete(id);
   }
 }

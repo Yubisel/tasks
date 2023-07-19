@@ -6,6 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  ConflictException,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -27,8 +31,15 @@ export class TasksController {
     description: 'Error creating task',
   })
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.create(createTaskDto);
+  async create(@Body() createTaskDto: CreateTaskDto) {
+    // Verify if exists others task with the same title
+    const taskWithSameTitle = await this.tasksService.findByTitle(
+      createTaskDto.title,
+    );
+    if (taskWithSameTitle) {
+      throw new ConflictException('Task already exists');
+    }
+    return await this.tasksService.create(createTaskDto);
   }
 
   // Return all tasks
@@ -38,7 +49,7 @@ export class TasksController {
     isArray: true,
   })
   @Get()
-  findAll(): Task[] {
+  findAll() {
     return this.tasksService.findAll();
   }
 
@@ -47,8 +58,14 @@ export class TasksController {
     type: Task,
   })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasksService.findById(id);
+  async findOne(@Param('id') id: string) {
+    try {
+      const task = await this.tasksService.findById(id);
+      if (!task) throw new NotFoundException('Task not found');
+      return task;
+    } catch (error) {
+      throw new NotFoundException('Task not found');
+    }
   }
 
   @ApiOkResponse({
@@ -56,15 +73,41 @@ export class TasksController {
     type: Task,
   })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(id, updateTaskDto);
+  async update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
+    try {
+      // Verify if task exists
+      const taskExists = await this.tasksService.findById(id);
+      if (!taskExists) {
+        throw new NotFoundException('Task not found');
+      }
+
+      // Verify if exists others task with the same title
+      const taskWithSameTitle = await this.tasksService.findByTitle(
+        updateTaskDto.title,
+      );
+      if (taskWithSameTitle && taskWithSameTitle._id !== id) {
+        throw new ConflictException('Task already exists');
+      }
+
+      // update the task
+      return await this.tasksService.update(id, updateTaskDto);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @ApiOkResponse({
     description: 'Remove task by id',
   })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tasksService.remove(id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Param('id') id: string) {
+    try {
+      const task = await this.tasksService.delete(id);
+      if (!task) throw new NotFoundException('Task not found');
+      return task;
+    } catch (error) {
+      throw new NotFoundException('Task not found');
+    }
   }
 }
