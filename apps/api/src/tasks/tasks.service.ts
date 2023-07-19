@@ -1,26 +1,50 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { TASK_TATUS, Task } from './entities/task.entity';
 
 @Injectable()
 export class TasksService {
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+  // Simulated db
+  private tasks: Task[] = [
+    {
+      id: uuidv4(),
+      title: 'some title',
+      description: 'some description',
+      status: TASK_TATUS.PENDING,
+    },
+  ];
+
+  create(createTaskDto: CreateTaskDto): Task {
+    const task: Task = {
+      id: uuidv4(),
+      ...createTaskDto,
+      status: TASK_TATUS.PENDING,
+    };
+    this.tasks.push(task);
+    return task;
   }
 
-  findAll() {
-    return `This action returns all tasks`;
+  findAll(): Task[] {
+    return this.tasks;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
+  findById(id: string): Task | null {
+    return this.tasks.find((task) => task.id === id) || null;
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+  update(id: string, updateTaskDto: UpdateTaskDto) {
+    const task = this.findById(id);
+    if (!task) throw 'Resource not found';
+    const updatedTask = Object.assign(task, updateTaskDto);
+    this.tasks = this.tasks.map((task) =>
+      task.id === id ? updatedTask : task,
+    );
+    return updatedTask;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  remove(id: string): void {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 }
