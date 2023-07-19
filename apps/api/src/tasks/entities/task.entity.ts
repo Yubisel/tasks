@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export enum TASK_TATUS {
@@ -26,11 +26,13 @@ export class Task {
   })
   title: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Task description',
   })
   @Prop({
     trim: true,
+    required: false,
+    default: '',
   })
   description: string;
 

@@ -11,10 +11,10 @@ import {
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Task } from './entities/task.entity';
 
 @ApiTags('Tasks')
