@@ -1,10 +1,14 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api/v1.0', { exclude: ['docs'] });
+
+  // Validation
+  app.useGlobalPipes(new ValidationPipe());
 
   // Swagger configuration
   const config = new DocumentBuilder()

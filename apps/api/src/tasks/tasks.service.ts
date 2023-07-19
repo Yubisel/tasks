@@ -9,7 +9,7 @@ export class TasksService {
   // Simulated db
   private tasks: Task[] = [
     {
-      id: uuidv4(),
+      id: '7de0428b-4d8d-49c6-9932-ae40d85be7ea',
       title: 'some title',
       description: 'some description',
       status: TASK_TATUS.PENDING,
@@ -34,7 +34,7 @@ export class TasksService {
     return this.tasks.find((task) => task.id === id) || null;
   }
 
-  update(id: string, updateTaskDto: UpdateTaskDto) {
+  update(id: string, updateTaskDto: UpdateTaskDto): Task {
     const task = this.findById(id);
     if (!task) throw 'Resource not found';
     const updatedTask = Object.assign(task, updateTaskDto);
