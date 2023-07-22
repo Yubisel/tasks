@@ -12,7 +12,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       process.env.MONGODB_URI,
     ),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../client/dist'),
+      // rootPath: join(__dirname, '../../client/dist'),
+      rootPath: join(__dirname, './static'),
     }),
     TasksModule,
   ],

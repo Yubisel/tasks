@@ -8,8 +8,9 @@
     "api:dev": "turbo run dev --filter=api",
     "client:dev": "turbo run dev --filter=client",
     "build": "turbo build",
-    "start": "node apps/api/dist/main.js",
-    "clean:dist": "turbo run clean:dist"
+    "postbuild": "mv apps/api/dist dist/ && mkdir dist/static && mv apps/client/dist/* dist/static",
+    "start": "node dist/main.js",
+    "clean:dist": "turbo run clean:dist && rm -rf dist"
   },
   "repository": {
     "type": "git",
