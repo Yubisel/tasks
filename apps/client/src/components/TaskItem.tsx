@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { ITask } from "../interfaces/task.interface";
-import { DetailsIcon, EditIcon, TrashIcon } from "./icons";
+import { DetailsIcon, TrashIcon } from "./icons";
 import { useTasks } from "../context/useTasks";
 
 interface IProps {
@@ -8,7 +8,7 @@ interface IProps {
 }
 
 const TaskItem: FC<IProps> = ({ task: { _id, title, description } }) => {
-  const { deleteTask, updateTask } = useTasks();
+  const { deleteTask } = useTasks();
 
   return (
     <li>
