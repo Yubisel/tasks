@@ -8,7 +8,8 @@ import { MongooseModule } from '@nestjs/mongoose';
   imports: [
     MongooseModule.forRoot(
       // 'mongodb+srv://yubiselv:C7TYjlQNvPb4SKpH@cluster0.yanizra.mongodb.net/tasks?retryWrites=true&w=majority',
-      'mongodb://127.0.0.1:27017/tasks?directConnection=true',
+      // 'mongodb://127.0.0.1:27017/tasks?directConnection=true',
+      process.env.MONGODB_URI,
     ),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../client/dist'),
