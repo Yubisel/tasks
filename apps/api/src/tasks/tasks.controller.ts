@@ -10,6 +10,7 @@ import {
   HttpStatus,
   NotFoundException,
   ConflictException,
+  BadRequestException,
 } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { TasksService } from './tasks.service';
@@ -39,7 +40,11 @@ export class TasksController {
     if (taskWithSameTitle) {
       throw new ConflictException('Task already exists');
     }
-    return await this.tasksService.create(createTaskDto);
+    try {
+      return await this.tasksService.create(createTaskDto);
+    } catch (error) {
+      throw new BadRequestException('Bad request');
+    }
   }
 
   // Return all tasks

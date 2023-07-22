@@ -1,5 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
+import { TASK_TATUS } from '../entities/task.entity';
 
 export class CreateTaskDto {
   @ApiProperty({
@@ -16,4 +23,12 @@ export class CreateTaskDto {
   @IsString()
   @IsOptional()
   description: string;
+
+  @ApiPropertyOptional({
+    description: 'Task status',
+    default: TASK_TATUS.PENDING,
+  })
+  @IsOptional()
+  @IsIn([TASK_TATUS.PENDING, TASK_TATUS.IN_PROGRESS, TASK_TATUS.DONE])
+  status: TASK_TATUS;
 }
