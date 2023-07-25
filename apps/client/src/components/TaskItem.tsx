@@ -33,7 +33,7 @@ const TaskItem: FC<IProps> = ({ task: { _id, title, description } }) => {
               aria-describedby="comments-description"
               name="comments"
               type="checkbox"
-              className="h-4 w-4 mr-3 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+              className="h-4 w-4 mr-3 rounded border-gray-300 text-green-600 focus:ring-green-600"
             />
             <a
               className={`text-sm mr-auto font-medium text-gray-900 ${
