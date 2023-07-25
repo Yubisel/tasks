@@ -11,7 +11,7 @@ function App() {
     <div className="">
       {/* <Header /> */}
       <div className="bg-slate-900 min-h-screen">
-        <div className="mx-auto max-w-xl py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl py-6 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-none">
             <TaskForm />
             <TaskList />
