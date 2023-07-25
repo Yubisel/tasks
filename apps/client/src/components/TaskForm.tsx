@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import useStore from "../store";
 import { ClearIcon, SaveIcon } from "./icons";
 
@@ -21,10 +21,6 @@ const TaskForm = () => {
       void updateTask();
     }
   };
-
-  useEffect(() => {
-    console.log(task);
-  }, [task]);
 
   return (
     <div className="relative">
