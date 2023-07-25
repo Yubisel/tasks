@@ -8,6 +8,7 @@ import {
   updateTaskRequest,
 } from "../api/tasks";
 import { NOTIFICATION_TYPE } from "./NotificationSlice";
+import { TResponse } from "../types/Response.type";
 
 export type TTask = {
   task: TCreateTask;
@@ -44,39 +45,70 @@ const TaskSlice: StateCreator<TStore, [], [], TTask> = (set, get) => ({
       },
     })),
   getAllTasks: async () => {
-    const response = await getTasksRequest();
-    if (response.ok) {
-      const data = (await response.json()) as ITask[];
-      set(() => ({
-        tasks: data,
-      }));
+    try {
+      const response = await getTasksRequest();
+      if (response.ok) {
+        const data = (await response.json()) as ITask[];
+        set(() => ({
+          tasks: data,
+        }));
+      }
+    } catch (error) {
+      get().showMessage("Something went wrong", NOTIFICATION_TYPE.ERROR);
     }
   },
   createTask: async () => {
-    const response = await createTaskRequest(get().task);
-    if (response.ok) {
-      void get().getAllTasks();
-      get().clearTaskData();
-      get().showMessage("Task created successfully", NOTIFICATION_TYPE.SUCCESS);
+    try {
+      const response = await createTaskRequest(get().task);
+      if (response.ok) {
+        void get().getAllTasks();
+        get().clearTaskData();
+        get().showMessage(
+          "Task created successfully",
+          NOTIFICATION_TYPE.SUCCESS
+        );
+      } else {
+        const data = (await response.json()) as TResponse;
+        get().handleErrorMessages(data.message);
+      }
+    } catch (error) {
+      get().showMessage("Something went wrong", NOTIFICATION_TYPE.ERROR);
     }
   },
   deleteTask: async (id: string) => {
-    const response = await deleteTaskRequest(id);
-    if (response.ok) {
-      void get().getAllTasks();
-      get().showMessage("Task deleted successfully", NOTIFICATION_TYPE.SUCCESS);
+    try {
+      const response = await deleteTaskRequest(id);
+      if (response.ok) {
+        void get().getAllTasks();
+        get().showMessage(
+          "Task deleted successfully",
+          NOTIFICATION_TYPE.SUCCESS
+        );
+      }
+    } catch (error) {
+      get().showMessage("Something went wrong", NOTIFICATION_TYPE.ERROR);
     }
   },
   updateTask: async () => {
-    const response = await updateTaskRequest(get().idEditingTask, get().task);
-    if (response.ok) {
-      void get().getAllTasks();
-      get().clearTaskData();
-      get().showMessage("Task updated successfully", NOTIFICATION_TYPE.SUCCESS);
-      set(() => ({
-        task: defaultTaskData,
-        idEditingTask: "",
-      }));
+    try {
+      const response = await updateTaskRequest(get().idEditingTask, get().task);
+      if (response.ok) {
+        void get().getAllTasks();
+        get().clearTaskData();
+        get().showMessage(
+          "Task updated successfully",
+          NOTIFICATION_TYPE.SUCCESS
+        );
+        set(() => ({
+          task: defaultTaskData,
+          idEditingTask: "",
+        }));
+      } else {
+        const data = (await response.json()) as TResponse;
+        get().handleErrorMessages(data.message);
+      }
+    } catch (error) {
+      get().showMessage("Something went wrong", NOTIFICATION_TYPE.ERROR);
     }
   },
   clearTaskData: () =>
