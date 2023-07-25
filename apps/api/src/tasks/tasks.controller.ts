@@ -90,7 +90,7 @@ export class TasksController {
       const taskWithSameTitle = await this.tasksService.findByTitle(
         updateTaskDto.title,
       );
-      if (taskWithSameTitle && taskWithSameTitle._id !== id) {
+      if (taskWithSameTitle && taskWithSameTitle._id.toString() !== id) {
         throw new ConflictException('Task already exists');
       }
 
