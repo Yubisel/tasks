@@ -1,30 +1,33 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, useEffect } from "react";
+import useStore from "../store";
 import { ClearIcon, SaveIcon } from "./icons";
-import { TCreateTask } from "../interfaces/task.interface";
-import { useTasks } from "../context/useTasks";
-
-const defaultTaskValues: TCreateTask = {
-  title: "",
-  description: "",
-};
 
 const TaskForm = () => {
-  const [task, setTask] = useState<TCreateTask>({ ...defaultTaskValues });
-  const { createTask } = useTasks();
+  const task = useStore.use.task();
+  const idEditingTask = useStore.use.idEditingTask();
+  const setTaskProp = useStore.use.setTaskProp();
+  const createTask = useStore.use.createTask();
+  const updateTask = useStore.use.updateTask();
+  const clearTaskData = useStore.use.clearTaskData();
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => setTask({ ...task, [event.target.name]: event.target.value });
+  ) => setTaskProp(event.target.name, event.target.value);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    void createTask(task);
+  const handleSubmit = () => {
+    if (idEditingTask === "") {
+      void createTask();
+    } else {
+      void updateTask();
+    }
   };
 
-  const handleClear = () => setTask({ ...defaultTaskValues });
+  useEffect(() => {
+    console.log(task);
+  }, [task]);
 
   return (
-    <form onSubmit={handleSubmit} className="relative">
+    <div className="relative">
       <div className="overflow-hidden bg-slate-200 rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
         <label htmlFor="title" className="sr-only">
           Title
@@ -64,28 +67,8 @@ const TaskForm = () => {
         <div className="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
           <div className="flex"></div>
           <div className="flex-shrink-0">
-            {/* <button
-                      type="button"
-                      className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                    >
-                      <EditIcon
-                        className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
-                        aria-hidden="true"
-                      />
-                      <span>Phone</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                    >
-                      <TrashIcon
-                        className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
-                        aria-hidden="true"
-                      />
-                      <span>Email</span>
-                    </button> */}
             <button
-              onClick={handleClear}
+              onClick={clearTaskData}
               className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
             >
               <ClearIcon
@@ -97,17 +80,18 @@ const TaskForm = () => {
             <button
               type="submit"
               className="relative ml-3 inline-flex items-center rounded-md bg-blue-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+              onClick={handleSubmit}
             >
               <SaveIcon
                 className="-ml-0.5 mr-1.5 h-5 w-5 text-white"
                 aria-hidden="true"
               />
-              <span>Create</span>
+              <span>{idEditingTask === "" ? "Create" : "Save"}</span>
             </button>
           </div>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 
