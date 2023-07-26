@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import Modal from "./Modal";
 import useStore from "../store";
 import { ITask } from "../interfaces/task.interface";
@@ -9,55 +9,71 @@ interface IProps {
   task: ITask;
 }
 
-const TaskItem: FC<IProps> = ({ task: { _id, title, description } }) => {
+const TaskItem: FC<IProps> = ({ task: { _id, title, description, done } }) => {
   const [isShowingDescription, setIsShowingDescription] =
     useState<boolean>(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const setEditingTask = useStore.use.setEditingTask();
   const deleteTask = useStore.use.deleteTask();
+  const updateTaskStatus = useStore.use.updateTaskStatus();
+
+  const handleCheck = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log("check", event.target.checked);
+    void updateTaskStatus(_id, { done: event.target.checked });
+  };
+
+  const showDescription = description && !done;
 
   return (
     <li>
       <div className="block hover:bg-gray-50">
         <div className="p-3 sm:px-6">
           <div className="flex items-center justify-between">
-            {description && (
-              <ChevronDownIcon
-                className={`absolute -ml-5 transition-all ${
-                  isShowingDescription ? "" : "-rotate-90"
-                }`}
-              />
-            )}
-            <input
-              id="comments"
-              aria-describedby="comments-description"
-              name="comments"
-              type="checkbox"
-              className="h-4 w-4 mr-3 rounded border-gray-300 text-green-600 focus:ring-green-600"
-            />
-            <a
-              className={`text-sm mr-auto font-medium text-gray-900 ${
-                description ? "cursor-pointer" : ""
-              }`}
-              onClick={() =>
-                description &&
-                setIsShowingDescription(
-                  (isShowingDescription) => !isShowingDescription
-                )
-              }
-            >
-              {title}
-            </a>
-            <div className="ml-2 flex flex-shrink-0">
-              <button
-                className="relative ml-3 inline-flex items-center rounded-md bg-white px-2 py-1 text-sm font-semibold shadow hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
-                onClick={() => setEditingTask(_id, { title, description })}
-              >
-                <EditIcon
-                  className="-ml-0.5 h-5 w-5 text-green-800"
-                  aria-hidden="true"
+            <div className="relative flex items-center">
+              {description && !done && (
+                <ChevronDownIcon
+                  className={`absolute -ml-5 transition-all ${
+                    isShowingDescription ? "" : "-rotate-90"
+                  }`}
                 />
-              </button>
+              )}
+              <input
+                id="comments"
+                aria-describedby="comments-description"
+                name="comments"
+                type="checkbox"
+                className="h-4 w-4 mr-3 rounded border-gray-300 text-green-600 focus:ring-green-600"
+                checked={done}
+                onChange={handleCheck}
+              />
+              <a
+                className={`text-sm mr-auto font-medium text-gray-900 ${
+                  done ? "opacity-40 line-through" : ""
+                } ${showDescription ? "cursor-pointer" : ""}`}
+                onClick={() =>
+                  showDescription &&
+                  setIsShowingDescription(
+                    (isShowingDescription) => !isShowingDescription
+                  )
+                }
+              >
+                {title}
+              </a>
+            </div>
+            <div className="ml-2 flex flex-shrink-0">
+              {!done && (
+                <button
+                  className="relative ml-3 inline-flex items-center rounded-md bg-white px-2 py-1 text-sm font-semibold shadow hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                  onClick={() =>
+                    setEditingTask(_id, { title, description, done })
+                  }
+                >
+                  <EditIcon
+                    className="-ml-0.5 h-5 w-5 text-green-800"
+                    aria-hidden="true"
+                  />
+                </button>
+              )}
               <button
                 className="relative ml-3 inline-flex items-center rounded-md bg-white px-2 py-1 text-sm font-semibold shadow hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
                 onClick={() => void setIsOpenDeleteModal(true)}
@@ -69,7 +85,7 @@ const TaskItem: FC<IProps> = ({ task: { _id, title, description } }) => {
               </button>
             </div>
           </div>
-          {description && (
+          {showDescription && (
             <Transition
               show={isShowingDescription}
               enter="transition-opacity duration-75"

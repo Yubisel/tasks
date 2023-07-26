@@ -1,12 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-export enum TASK_TATUS {
-  PENDING = 'PENDING',
-  IN_PROGRESS = 'IN_PROGRESS',
-  DONE = 'DONE',
-}
-
 @Schema({
   timestamps: true,
 })
@@ -38,13 +32,11 @@ export class Task {
 
   @ApiProperty({
     description: 'Task status',
-    enum: TASK_TATUS,
   })
   @Prop({
-    default: TASK_TATUS.PENDING,
-    enum: TASK_TATUS,
+    default: false,
   })
-  status: TASK_TATUS;
+  done: boolean;
 
   @ApiProperty({
     description: 'Task create date',

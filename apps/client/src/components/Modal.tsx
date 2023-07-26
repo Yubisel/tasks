@@ -54,7 +54,7 @@ const Modal: FC<IProps> = ({ isOpen, onAccept, onCancel, taskTitle }) => {
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Are you sure you want to delete the task{" "}
+                          Are you sure you want to delete the task
                           <b>"{taskTitle}"</b>? This action cannot be undone.
                         </p>
                       </div>
