@@ -1,6 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { TASK_TATUS } from '../entities/task.entity';
-import { IsIn, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class UpdateTaskDto {
   @ApiPropertyOptional({
@@ -20,9 +19,8 @@ export class UpdateTaskDto {
 
   @ApiPropertyOptional({
     description: 'Task status',
-    enum: TASK_TATUS,
   })
   @IsOptional()
-  @IsIn([TASK_TATUS.PENDING, TASK_TATUS.IN_PROGRESS, TASK_TATUS.DONE])
-  status?: TASK_TATUS;
+  @IsBoolean()
+  done?: boolean;
 }

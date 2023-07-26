@@ -8,7 +8,12 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1.0', { exclude: ['docs'] });
 
   // Validation
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
   // Swagger configuration
   const config = new DocumentBuilder()
