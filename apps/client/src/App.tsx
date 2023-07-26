@@ -3,10 +3,12 @@ import Toast from "./components/Toast";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 
+import Bar from "./components/Bar";
+import Loading from "./components/Loading";
+
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-
   return (
     <div className="">
       {/* <Header /> */}
@@ -14,6 +16,8 @@ function App() {
         <div className="mx-auto max-w-2xl py-6 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-none">
             <TaskForm />
+            {/* <Bar /> */}
+            <Loading />
             <TaskList />
           </div>
         </div>
