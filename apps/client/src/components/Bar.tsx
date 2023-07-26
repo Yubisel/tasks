@@ -1,14 +1,7 @@
 import { RadioGroup } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { TrashIcon } from "./icons";
-
-const FILTER_OPTIONS = {
-  ALL: "All",
-  COMPLETED: "Completed",
-  PENDING: "Pending",
-} as const;
-
-type TFilterOption = (typeof FILTER_OPTIONS)[keyof typeof FILTER_OPTIONS];
+import { FILTER_OPTIONS, type TFilterOption } from "../types";
 
 export default function Example() {
   const [selectedFilter, setSelectedFilter] = useState<TFilterOption>(

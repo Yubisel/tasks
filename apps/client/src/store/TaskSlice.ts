@@ -1,14 +1,18 @@
 import { StateCreator } from "zustand";
 import { TStore } from "./index";
-import { ITask, TCreateTask, TUpdateTask } from "../interfaces/task.interface";
 import {
   createTaskRequest,
   deleteTaskRequest,
   getTasksRequest,
   updateTaskRequest,
 } from "../api/tasks";
-import { TResponse } from "../types/Response.type";
-import { NOTIFICATION_TYPE } from "./NotificationSlice";
+import {
+  type ITask,
+  type TCreateTask,
+  type TUpdateTask,
+  type TResponse,
+  NOTIFICATION_TYPE,
+} from "../types";
 
 export type TTask = {
   task: TCreateTask;

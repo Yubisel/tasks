@@ -1,10 +1,8 @@
 import { ToastContainer } from "react-toastify";
 import Toast from "./components/Toast";
+import Loading from "./components/Loading";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
-
-import Bar from "./components/Bar";
-import Loading from "./components/Loading";
 
 import "react-toastify/dist/ReactToastify.css";
 
