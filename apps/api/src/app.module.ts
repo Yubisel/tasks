@@ -14,6 +14,9 @@ import { MongooseModule } from '@nestjs/mongoose';
     ServeStaticModule.forRoot({
       // rootPath: join(__dirname, '../../client/dist'),
       rootPath: join(__dirname, './static'),
+      // process.env.ENV === 'PRODUCTION'
+      //   ? join(__dirname, './static')
+      //   : join(__dirname, './static'),
     }),
     TasksModule,
   ],

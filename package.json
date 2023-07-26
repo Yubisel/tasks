@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "turbo run dev",
-    "api:dev": "turbo run dev --filter=api",
-    "client:dev": "turbo run dev --filter=client",
-    "build": "turbo build",
+    "dev": "dotenv -- turbo run dev",
+    "api:dev": "dotenv -- turbo run dev --filter=api",
+    "client:dev": "dotenv -- turbo run dev --filter=client",
+    "prebuild": "rm -rf apps/api/dist && rm -rf apps/client/dist && rm -rf dist",
+    "build": "dotenv -- turbo build",
     "postbuild": "mv apps/api/dist dist/ && mkdir dist/static && mv apps/client/dist/* dist/static",
-    "start": "node dist/main.js",
+    "start": "dotenv -- node dist/main.js",
     "clean:dist": "turbo run clean:dist && rm -rf dist"
   },
   "repository": {
@@ -22,6 +23,7 @@
     "apps/*"
   ],
   "devDependencies": {
+    "dotenv-cli": "^7.2.1",
     "turbo": "^1.10.8"
   }
 }
