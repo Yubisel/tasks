@@ -18,6 +18,11 @@ export const deleteTaskRequest = (id: string) =>
     method: "DELETE",
   });
 
+export const deleteAllDoneTasksRequest = () =>
+  fetch(`${API_URL}tasks`, {
+    method: "DELETE",
+  });
+
 export const updateTaskRequest = (id: string, task: TUpdateTask) =>
   fetch(`${API_URL}tasks/${id}`, {
     method: "PATCH",

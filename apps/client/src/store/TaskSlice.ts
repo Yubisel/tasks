@@ -2,6 +2,7 @@ import { StateCreator } from "zustand";
 import { TStore } from "./index";
 import {
   createTaskRequest,
+  deleteAllDoneTasksRequest,
   deleteTaskRequest,
   getTasksRequest,
   updateTaskRequest,
@@ -24,6 +25,7 @@ export type TTask = {
   setTaskProp: (property: string, value: string) => void;
   createTask: () => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
+  deleteAllDoneTasks: () => Promise<void>;
   updateTask: () => Promise<void>;
   updateTaskStatus: (id: string, task: TUpdateTask) => Promise<void>;
 };
@@ -95,6 +97,23 @@ const TaskSlice: StateCreator<TStore, [], [], TTask> = (set, get) => ({
         void get().getAllTasks();
         get().showMessage(
           "Task deleted successfully",
+          NOTIFICATION_TYPE.SUCCESS
+        );
+      }
+    } catch (error) {
+      get().showMessage("Something went wrong", NOTIFICATION_TYPE.ERROR);
+    } finally {
+      get().dismissLoading();
+    }
+  },
+  deleteAllDoneTasks: async () => {
+    get().showLoading();
+    try {
+      const response = await deleteAllDoneTasksRequest();
+      if (response.ok) {
+        void get().getAllTasks();
+        get().showMessage(
+          "Tasks deleted successfully",
           NOTIFICATION_TYPE.SUCCESS
         );
       }
