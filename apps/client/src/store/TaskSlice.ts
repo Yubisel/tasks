@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand";
 import { TStore } from "./index";
-import { ITask, TCreateTask } from "../interfaces/task.interface";
+import { ITask, TCreateTask, TUpdateTask } from "../interfaces/task.interface";
 import {
   createTaskRequest,
   deleteTaskRequest,
@@ -21,11 +21,13 @@ export type TTask = {
   createTask: () => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
   updateTask: () => Promise<void>;
+  updateTaskStatus: (id: string, task: TUpdateTask) => Promise<void>;
 };
 
 const defaultTaskData: TCreateTask = {
   title: "",
   description: "",
+  done: false,
 };
 
 const TaskSlice: StateCreator<TStore, [], [], TTask> = (set, get) => ({
@@ -103,6 +105,23 @@ const TaskSlice: StateCreator<TStore, [], [], TTask> = (set, get) => ({
           task: defaultTaskData,
           idEditingTask: "",
         }));
+      } else {
+        const data = (await response.json()) as TResponse;
+        get().handleErrorMessages(data.message);
+      }
+    } catch (error) {
+      get().showMessage("Something went wrong", NOTIFICATION_TYPE.ERROR);
+    }
+  },
+  updateTaskStatus: async (id: string, task: TUpdateTask) => {
+    try {
+      const response = await updateTaskRequest(id, task);
+      if (response.ok) {
+        void get().getAllTasks();
+        get().showMessage(
+          "Task updated successfully",
+          NOTIFICATION_TYPE.SUCCESS
+        );
       } else {
         const data = (await response.json()) as TResponse;
         get().handleErrorMessages(data.message);
