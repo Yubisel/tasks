@@ -18,7 +18,6 @@ const TaskItem: FC<IProps> = ({ task: { _id, title, description, done } }) => {
   const updateTaskStatus = useStore.use.updateTaskStatus();
 
   const handleCheck = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("check", event.target.checked);
     void updateTaskStatus(_id, { done: event.target.checked });
   };
 
