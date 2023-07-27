@@ -1,4 +1,4 @@
-import { TCreateTask, TUpdateTask } from "../interfaces/task.interface";
+import { type TCreateTask, type TUpdateTask } from "../types";
 
 const API_URL = "/api/v1.0/";
 

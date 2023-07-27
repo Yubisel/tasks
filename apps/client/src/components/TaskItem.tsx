@@ -1,9 +1,9 @@
 import { ChangeEvent, FC, useState } from "react";
+import { Transition } from "@headlessui/react";
 import Modal from "./Modal";
 import useStore from "../store";
-import { ITask } from "../interfaces/task.interface";
+import { type ITask } from "../types";
 import { ChevronDownIcon, DetailsIcon, EditIcon, TrashIcon } from "./icons";
-import { Transition } from "@headlessui/react";
 
 interface IProps {
   task: ITask;
@@ -18,7 +18,6 @@ const TaskItem: FC<IProps> = ({ task: { _id, title, description, done } }) => {
   const updateTaskStatus = useStore.use.updateTaskStatus();
 
   const handleCheck = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("check", event.target.checked);
     void updateTaskStatus(_id, { done: event.target.checked });
   };
 

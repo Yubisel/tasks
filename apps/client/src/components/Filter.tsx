@@ -1,26 +1,37 @@
-import { RadioGroup } from "@headlessui/react";
 import { useEffect, useState } from "react";
-import { TrashIcon } from "./icons";
+import { RadioGroup } from "@headlessui/react";
+import useStore from "../store";
+import { FILTER_OPTIONS, TFilterOption } from "../types";
 
-const FILTER_OPTIONS = {
-  ALL: "All",
-  COMPLETED: "Completed",
-  PENDING: "Pending",
-} as const;
+type TFilterValues = {
+  [key in TFilterOption]: number;
+};
 
-type TFilterOption = (typeof FILTER_OPTIONS)[keyof typeof FILTER_OPTIONS];
+const defaultFilterCountValues = {
+  [FILTER_OPTIONS.ALL]: 0,
+  [FILTER_OPTIONS.COMPLETED]: 0,
+  [FILTER_OPTIONS.PENDING]: 0,
+};
 
-export default function Example() {
-  const [selectedFilter, setSelectedFilter] = useState<TFilterOption>(
-    FILTER_OPTIONS.ALL
-  );
+const Filter = () => {
+  const tasks = useStore.use.tasks();
+  const selectedFilter = useStore.use.selectedFilter();
+  const setSelectedFilter = useStore.use.setSelectedFilter();
+
+  const [s, setS] = useState<TFilterValues>({ ...defaultFilterCountValues });
 
   useEffect(() => {
-    console.log(selectedFilter);
-  }, [selectedFilter]);
+    const tmpFilterCount = { ...defaultFilterCountValues };
+    tasks.forEach((task) => {
+      tmpFilterCount[FILTER_OPTIONS.ALL]++;
+      task.done
+        ? tmpFilterCount[FILTER_OPTIONS.COMPLETED]++
+        : tmpFilterCount[FILTER_OPTIONS.PENDING]++;
+    });
+    setS({ ...tmpFilterCount });
+  }, [tasks]);
 
   return (
-    <div className="w-full mt-3 flex justify-between">
       <RadioGroup value={selectedFilter} onChange={setSelectedFilter}>
         <span className="isolate inline-flex rounded-md shadow-sm">
           {Object.entries(FILTER_OPTIONS).map(([key, value]) => (
@@ -42,7 +53,7 @@ export default function Example() {
                 >
                   {value}
                   <span className="absolute inline-flex items-center justify-center w-6 h-6 text-xs z-10 font-bold text-white bg-slate-700 border-2 border-white rounded-full -top-2 right-1 dark:border-gray-900">
-                    55
+                    {s[value]}
                   </span>
                 </RadioGroup.Label>
               )}
@@ -50,18 +61,7 @@ export default function Example() {
           ))}
         </span>
       </RadioGroup>
-
-      <button
-        type="submit"
-        className="relative inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-        // onClick={onAccept}
-      >
-        <TrashIcon
-          className="-ml-0.5 mr-1.5 h-5 w-5 text-white"
-          aria-hidden="true"
-        />
-        <span>Delete all completed</span>
-      </button>
-    </div>
   );
-}
+};
+
+export default Filter;

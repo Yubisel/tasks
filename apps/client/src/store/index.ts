@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { StoreApi, UseBoundStore } from "zustand";
-import NotificationSlice, { TMessage } from "./NotificationSlice";
-import LoadingSlice, { TLoading } from "./LoadingSlice";
-import TaskSlice, { TTask } from "./TaskSlice";
+import NotificationSlice, { type TMessage } from "./NotificationSlice";
+import LoadingSlice, { type TLoading } from "./LoadingSlice";
+import TaskSlice, { type TTask } from "./TaskSlice";
+import FilterSlice, { type TFilter } from "./FilterSlice";
 
 type WithSelectors<S> = S extends { getState: () => infer T }
   ? S & { use: { [K in keyof T]: () => T[K] } }
@@ -21,12 +22,13 @@ const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
   return store;
 };
 
-export type TStore = TMessage & TLoading & TTask;
+export type TStore = TMessage & TLoading & TTask & TFilter;
 
 const useStoreBase = create<TStore>((...args) => ({
   ...NotificationSlice(...args),
   ...LoadingSlice(...args),
   ...TaskSlice(...args),
+  ...FilterSlice(...args),
 }));
 
 const useStore = createSelectors(useStoreBase);
