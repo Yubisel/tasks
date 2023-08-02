@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useState } from "react";
 import { Transition } from "@headlessui/react";
-import Modal from "./Modal";
+import ModalConfirmDelete from "./ModalConfirmDelete";
 import useStore from "../store";
 import { type ITask } from "../types";
 import { ChevronDownIcon, DetailsIcon, EditIcon, TrashIcon } from "./icons";
@@ -108,7 +108,7 @@ const TaskItem: FC<IProps> = ({ task: { _id, title, description, done } }) => {
           )}
         </div>
       </div>
-      <Modal
+      <ModalConfirmDelete
         isOpen={isOpenDeleteModal}
         onAccept={() => void deleteTask(_id)}
         onCancel={() => void setIsOpenDeleteModal(false)}

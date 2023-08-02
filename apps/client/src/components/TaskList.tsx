@@ -12,7 +12,7 @@ const TaskList = () => {
     void getAllTasks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  // ToDo: Message when there is no task in the list
   return (
     <div className="overflow-hidden bg-white mt-3 sm:rounded-lg sm:shadow">
       <ul role="list" className="divide-y divide-gray-200">
