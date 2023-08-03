@@ -1,6 +1,6 @@
 import { Transition } from "@headlessui/react";
-import useStore from "../store";
-import { LoadingIcon } from "./icons/LoadingIcon";
+import useStore from "$store";
+import { LoadingIcon } from "$ui";
 
 const Loading = () => {
   const isLoading = useStore.use.isLoading();

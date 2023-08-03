@@ -1,6 +1,6 @@
-import useStore from "../store";
+import useStore from "$store";
 import Filter from "./Filter";
-import { TrashIcon } from "./icons";
+import { TrashIcon } from "$ui";
 
 
 const OptionsBar = () => {

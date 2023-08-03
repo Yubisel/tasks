@@ -1,7 +1,6 @@
 import { ChangeEvent } from "react";
-import useStore from "../store";
-import { ClearIcon, SaveIcon } from "./icons";
-import Button from "./Button/Button";
+import useStore from "$store";
+import {Button, ClearIcon, SaveIcon} from "$ui";
 
 const TaskForm = () => {
   const task = useStore.use.task();

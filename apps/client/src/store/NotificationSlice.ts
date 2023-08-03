@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand";
 import { TStore } from "./index";
-import { NOTIFICATION_TYPE, type TNotificationType } from "../types";
+import { NOTIFICATION_TYPE, type TNotificationType } from "$types";
 
 export type TMessage = {
   message: string;

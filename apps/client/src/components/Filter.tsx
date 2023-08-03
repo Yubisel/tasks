@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
-import useStore from "../store";
-import { FILTER_OPTIONS, TFilterOption } from "../types";
+import useStore from "$store";
+import { FILTER_OPTIONS, TFilterOption } from "$types";
 
 type TFilterValues = {
   [key in TFilterOption]: number;

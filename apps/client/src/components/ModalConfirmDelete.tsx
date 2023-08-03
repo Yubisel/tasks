@@ -1,7 +1,4 @@
-import { FC } from "react";
-import { CancelIcon, TrashIcon } from "./icons";
-import Modal from "./Modal";
-import Button from "./Button";
+import { Modal, Button, CancelIcon, TrashIcon } from "$ui";
 
 interface IProps {
   isOpen: boolean;
@@ -10,7 +7,7 @@ interface IProps {
   taskTitle: string;
 }
 
-const ModalConfirmDelete: FC<IProps> = ({
+const ModalConfirmDelete: React.FC<IProps> = ({
   isOpen,
   onAccept,
   onCancel,

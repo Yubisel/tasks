@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React from "react";
 import TaskItem from "./TaskItem";
 import useStore from "../store";
 import { FILTER_OPTIONS } from "../types";
@@ -8,7 +8,7 @@ const TaskList = () => {
   const selectedFilter = useStore.use.selectedFilter();
   const getAllTasks = useStore.use.getAllTasks();
 
-  useEffect(() => {
+  React.useEffect(() => {
     void getAllTasks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

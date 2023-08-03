@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand";
 import { TStore } from "./index";
-import { type TFilterOption, FILTER_OPTIONS } from "../types";
+import { type TFilterOption, FILTER_OPTIONS } from "$types";
 
 export type TFilter = {
   selectedFilter: TFilterOption;

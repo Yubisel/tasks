@@ -1,23 +1,23 @@
-import { ChangeEvent, FC, useState } from "react";
+import React from "react";
 import { Transition } from "@headlessui/react";
 import ModalConfirmDelete from "./ModalConfirmDelete";
-import useStore from "../store";
-import { type ITask } from "../types";
-import { ChevronDownIcon, DetailsIcon, EditIcon, TrashIcon } from "./icons";
+import useStore from "$store";
+import { type ITask } from "$types";
+import { ChevronDownIcon, DetailsIcon, EditIcon, TrashIcon } from "$ui";
 
 interface IProps {
   task: ITask;
 }
 
-const TaskItem: FC<IProps> = ({ task: { _id, title, description, done } }) => {
+const TaskItem: React.FC<IProps> = ({ task: { _id, title, description, done } }) => {
   const [isShowingDescription, setIsShowingDescription] =
-    useState<boolean>(false);
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
+    React.useState<boolean>(false);
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = React.useState<boolean>(false);
   const setEditingTask = useStore.use.setEditingTask();
   const deleteTask = useStore.use.deleteTask();
   const updateTaskStatus = useStore.use.updateTaskStatus();
 
-  const handleCheck = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     void updateTaskStatus(_id, { done: event.target.checked });
   };
 
