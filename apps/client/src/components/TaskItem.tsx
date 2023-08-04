@@ -1,20 +1,21 @@
 import React from "react";
 import { Transition } from "@headlessui/react";
-import ModalConfirmDelete from "./ModalConfirmDelete";
 import useStore from "$store";
 import { type ITask } from "$types";
 import { ChevronDownIcon, DetailsIcon, EditIcon, TrashIcon } from "$ui";
 
 interface IProps {
   task: ITask;
+  onDelete: () => void;
 }
 
-const TaskItem: React.FC<IProps> = ({ task: { _id, title, description, done } }) => {
+const TaskItem: React.FC<IProps> = ({
+  task: { _id, title, description, done },
+  onDelete,
+}) => {
   const [isShowingDescription, setIsShowingDescription] =
     React.useState<boolean>(false);
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = React.useState<boolean>(false);
   const setEditingTask = useStore.use.setEditingTask();
-  const deleteTask = useStore.use.deleteTask();
   const updateTaskStatus = useStore.use.updateTaskStatus();
 
   const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +76,7 @@ const TaskItem: React.FC<IProps> = ({ task: { _id, title, description, done } })
               )}
               <button
                 className="relative ml-3 inline-flex items-center rounded-md bg-white px-2 py-1 text-sm font-semibold shadow hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
-                onClick={() => void setIsOpenDeleteModal(true)}
+                onClick={onDelete}
               >
                 <TrashIcon
                   className="-ml-0.5 h-5 w-5 text-red-800"
@@ -108,12 +109,6 @@ const TaskItem: React.FC<IProps> = ({ task: { _id, title, description, done } })
           )}
         </div>
       </div>
-      <ModalConfirmDelete
-        isOpen={isOpenDeleteModal}
-        onAccept={() => void deleteTask(_id)}
-        onCancel={() => void setIsOpenDeleteModal(false)}
-        taskTitle={title}
-      />
     </li>
   );
 };

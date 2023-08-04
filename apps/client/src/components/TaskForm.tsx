@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import useStore from "$store";
-import {Button, ClearIcon, SaveIcon} from "$ui";
+import { Button, ClearIcon, SaveIcon } from "$ui";
 
 const TaskForm = () => {
   const task = useStore.use.task();
@@ -70,7 +70,12 @@ const TaskForm = () => {
               />
               <span>Clear</span>
             </Button>
-            <Button onClick={handleSubmit} variant="success" className="ml-3">
+            <Button
+              onClick={handleSubmit}
+              variant="success"
+              disabled={task.title === ""}
+              className="ml-3"
+            >
               <SaveIcon
                 className="-ml-0.5 mr-1.5 h-5 w-5 text-white"
                 aria-hidden="true"

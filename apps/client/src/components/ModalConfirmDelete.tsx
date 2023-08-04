@@ -18,8 +18,7 @@ const ModalConfirmDelete: React.FC<IProps> = ({
       <Modal.Title>Delete task?</Modal.Title>
       <Modal.Body>
         <p className="text-sm text-gray-500">
-          Are you sure you want to delete the task
-          <b>"{taskTitle}"</b>? This action cannot be undone.
+          Are you sure you want to delete the task <b>"{taskTitle}"</b>? This action cannot be undone.
         </p>
       </Modal.Body>
       <Modal.Footer>
