@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
-import useStore from "../store";
-import { ClearIcon, SaveIcon } from "./icons";
+import useStore from "$store";
+import {Button, ClearIcon, SaveIcon} from "$ui";
 
 const TaskForm = () => {
   const task = useStore.use.task();
@@ -63,27 +63,20 @@ const TaskForm = () => {
         <div className="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
           <div className="flex"></div>
           <div className="flex-shrink-0">
-            <button
-              onClick={clearTaskData}
-              className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
-            >
+            <Button onClick={clearTaskData}>
               <ClearIcon
                 className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-900"
                 aria-hidden="true"
               />
               <span>Clear</span>
-            </button>
-            <button
-              type="submit"
-              className="relative ml-3 inline-flex items-center rounded-md bg-blue-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
-              onClick={handleSubmit}
-            >
+            </Button>
+            <Button onClick={handleSubmit} variant="success" className="ml-3">
               <SaveIcon
                 className="-ml-0.5 mr-1.5 h-5 w-5 text-white"
                 aria-hidden="true"
               />
               <span>{idEditingTask === "" ? "Create" : "Save"}</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>

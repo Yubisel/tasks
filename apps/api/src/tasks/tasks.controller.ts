@@ -115,4 +115,17 @@ export class TasksController {
       throw new NotFoundException('Task not found');
     }
   }
+
+  @ApiOkResponse({
+    description: 'Remove all done task',
+  })
+  @Delete()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteAllDoneTasks() {
+    try {
+      await this.tasksService.deleteAllDoneTasks();
+    } catch (error) {
+      throw new NotFoundException('Task not found');
+    }
+  }
 }

@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { shallow } from "zustand/shallow";
+import React from "react";
 import { toast } from "react-toastify";
-import useStore from "../store";
+import { shallow } from "zustand/shallow";
+import useStore from "$store";
 
 const Toast = () => {
   const { message, type } = useStore(
@@ -14,7 +14,7 @@ const Toast = () => {
   const clearMessage = useStore.use.clearMessage();
   const dismissLoading = useStore.use.dismissLoading();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (message) {
       dismissLoading();
       toast(message, {

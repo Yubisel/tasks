@@ -9,8 +9,8 @@
     "client:dev": "dotenv -- turbo run dev --filter=client",
     "prebuild": "rm -rf apps/api/dist && rm -rf apps/client/dist && rm -rf dist",
     "build": "dotenv -- turbo build",
-    "postbuild": "mv apps/api/dist dist/ && mkdir dist/static && mv apps/client/dist/* dist/static",
-    "start": "dotenv -- node dist/main.js",
+    "postbuild": "mv apps/api/dist dist/ && mkdir dist/src/static && mv apps/client/dist/* dist/src/static",
+    "start": "dotenv -- node dist/src/main.js",
     "clean:dist": "turbo run clean:dist && rm -rf dist"
   },
   "repository": {

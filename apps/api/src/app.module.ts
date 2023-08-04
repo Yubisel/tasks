@@ -1,23 +1,31 @@
 import { join } from 'path';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { validate } from 'config/env.validation';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TasksModule } from './tasks/tasks.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HealthCheckModule } from './health-check/health-check.module';
+import { RequestsLoggerMiddleware } from './middleware/requests-logger.middleware';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      // 'mongodb+srv://yubiselv:C7TYjlQNvPb4SKpH@cluster0.yanizra.mongodb.net/tasks?retryWrites=true&w=majority',
-      // 'mongodb://127.0.0.1:27017/tasks?directConnection=true',
-      process.env.MONGODB_URI,
-    ),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      // envFilePath: !process.env.NODE_ENV
+      //   ? '.env'
+      //   : `.env.${process.env.NODE_ENV}`,
+      validate,
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB_URI'),
+      }),
+      inject: [ConfigService],
+    }),
     ServeStaticModule.forRoot({
-      // rootPath: join(__dirname, '../../client/dist'),
       rootPath: join(__dirname, './static'),
-      // process.env.ENV === 'PRODUCTION'
-      //   ? join(__dirname, './static')
-      //   : join(__dirname, './static'),
     }),
     TasksModule,
     HealthCheckModule,
@@ -25,4 +33,9 @@ import { HealthCheckModule } from './health-check/health-check.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+// export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(RequestsLoggerMiddleware).forRoutes('*');
+  }
+}

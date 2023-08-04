@@ -5,3 +5,4 @@ export { ClearIcon } from "./ClearIcon";
 export { DetailsIcon } from "./DetailsIcon";
 export { CancelIcon } from "./CancelIcon";
 export { ChevronDownIcon } from "./ChevronDownIcon";
+export { LoadingIcon } from "./LoadingIcon";

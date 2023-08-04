@@ -18,8 +18,22 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Path alias intellisense */
+    "baseUrl": ".",
+    "paths": {
+      "$/*": ["src/*"],
+      "$api/*": ["src/api/*"],
+      "$assets/*": ["src/assets/*"],
+      "$cmp/*": ["src/components/*"],
+      "$store": ["src/store/index.ts"],
+      "$types": ["src/types/index.ts"],
+      "$ui/*": ["src/components/ui/*"],
+      "$ui": ["src/components/ui/index.ts"]
+    }
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "**/*.ts", "**/*.tsx"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "exclude": ["node_modules"]
 }
