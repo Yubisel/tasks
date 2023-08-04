@@ -12,8 +12,19 @@ const TaskList = () => {
     void getAllTasks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // ToDo: Message when there is no task in the list
-  return (
+  return tasks.length === 0 ? (
+    <div className="block bg-slate-700 mt-3 sm:rounded-lg sm:shadow">
+      <div className="p-3 sm:px-6">
+        <div className="flex items-center justify-center italic">
+          <div className="relative flex items-center">
+            <span className={`text-sm font-medium text-white`}>
+              {"There is no tasks to show"}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <div className="overflow-hidden bg-white mt-3 sm:rounded-lg sm:shadow">
       <ul role="list" className="divide-y divide-gray-200">
         {tasks.map((task) => {
