@@ -15,7 +15,7 @@ const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
   const store = _store as WithSelectors<typeof _store>;
   store.use = {};
   for (const k of Object.keys(store.getState())) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     (store.use as any)[k] = () => store((s) => s[k as keyof typeof s]);
   }
 
@@ -31,5 +31,5 @@ const useStoreBase = create<TStore>((...args) => ({
   ...FilterSlice(...args),
 }));
 
-const useStore = createSelectors(useStoreBase);
-export default useStore;
+const useStorea = createSelectors(useStoreBase);
+export default useStorea;
