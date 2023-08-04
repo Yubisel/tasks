@@ -31,10 +31,8 @@ async function bootstrap() {
     // customCssUrl: '/custom.css',
   });
 
-  await app.listen(configService.get('API_PORT'), () =>
-    console.log(
-      `Server up and listen on port ${configService.get('API_PORT')}`,
-    ),
+  await app.listen(configService.get('PORT'), () =>
+    console.log(`Server up and listen on port ${configService.get('PORT')}`),
   );
 }
 bootstrap();
