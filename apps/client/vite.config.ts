@@ -9,7 +9,7 @@ export default defineConfig({
     ...(process.env.VITE_CLIENT_PORT && {port: +process.env.VITE_CLIENT_PORT}),
     proxy: {
       "/api": {
-        target: `http://localhost:${process.env.API_PORT || 3000}/`,
+        target: `http://localhost:${process.env.PORT || 3000}/`,
         changeOrigin: true,
       },
     },

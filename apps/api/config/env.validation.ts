@@ -13,7 +13,7 @@ class EnvVars {
   NODE_ENV: EnvironmentType;
 
   @IsNumber()
-  API_PORT?: number = 3000;
+  PORT?: number = 3000;
 
   @IsString()
   MONGODB_URI: string;
