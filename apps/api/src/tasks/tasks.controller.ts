@@ -41,7 +41,7 @@ export class TasksController {
       throw new ConflictException('Task already exists');
     }
     try {
-      return await this.tasksService.create(createTaskDto);
+      return await this.tasksService.create<CreateTaskDto>(createTaskDto);
     } catch (error) {
       throw new BadRequestException('Bad request');
     }
@@ -95,7 +95,7 @@ export class TasksController {
       }
 
       // update the task
-      return await this.tasksService.update(id, updateTaskDto);
+      return await this.tasksService.update<UpdateTaskDto>(id, updateTaskDto);
     } catch (error) {
       throw error;
     }
