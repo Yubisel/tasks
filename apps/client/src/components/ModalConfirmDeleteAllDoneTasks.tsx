@@ -4,21 +4,19 @@ interface IProps {
   isOpen: boolean;
   onAccept: () => void;
   onCancel: () => void;
-  taskTitle: string;
 }
 
-const ModalConfirmDelete: React.FC<IProps> = ({
+const ModalConfirmDeleteAllDoneTasks: React.FC<IProps> = ({
   isOpen,
   onAccept,
   onCancel,
-  taskTitle,
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onCancel}>
-      <Modal.Title>Delete task?</Modal.Title>
+      <Modal.Title>Delete all completed tasks?</Modal.Title>
       <Modal.Body>
         <p className="text-sm text-gray-500">
-          Are you sure you want to delete the task <b>"{taskTitle}"</b>? This action cannot be undone.
+          Are you sure you want to delete all completed tasks? This action cannot be undone.
         </p>
       </Modal.Body>
       <Modal.Footer>
@@ -41,4 +39,4 @@ const ModalConfirmDelete: React.FC<IProps> = ({
   );
 };
 
-export default ModalConfirmDelete;
+export default ModalConfirmDeleteAllDoneTasks;

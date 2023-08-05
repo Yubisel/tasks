@@ -16,7 +16,7 @@ const Loading = () => {
       leaveTo="opacity-0"
     >
       <div className="fixed inset-0 z-10 overflow-y-auto">
-        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 bg-gray-500 bg-opacity-40">
+        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 bg-transparent">
           <LoadingIcon className="text-white w-8 h-8" />
         </div>
       </div>
