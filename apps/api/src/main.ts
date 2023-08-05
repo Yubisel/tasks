@@ -19,8 +19,8 @@ async function bootstrap() {
 
   // Swagger configuration
   const config = new DocumentBuilder()
-    .setTitle('Title example')
-    .setDescription('The API description')
+    .setTitle('Tasks')
+    .setDescription('Tasks management')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
