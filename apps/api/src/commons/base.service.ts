@@ -1,9 +1,9 @@
 import { Model } from 'mongoose';
 
-export abstract class BaseService<T> {
+export abstract class BaseService<T, C, U> {
   abstract getModel(): Model<T>;
 
-  async create<C>(createDto: C): Promise<T> {
+  async create(createDto: C): Promise<T> {
     return await this.getModel().create(createDto);
   }
 
@@ -15,7 +15,7 @@ export abstract class BaseService<T> {
     return await this.getModel().findById(id);
   }
 
-  async update<U>(id: string, updateDto: U): Promise<T> {
+  async update(id: string, updateDto: U): Promise<T> {
     return await this.getModel().findByIdAndUpdate(id, updateDto, {
       new: true,
     });
