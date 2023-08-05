@@ -2,7 +2,7 @@ import React from "react";
 import { Transition } from "@headlessui/react";
 import useStore from "$store";
 import { type ITask } from "$types";
-import { ChevronDownIcon, DetailsIcon, EditIcon, TrashIcon } from "$ui";
+import { Button, ChevronDownIcon, DetailsIcon, EditIcon, TrashIcon } from "$ui";
 
 interface IProps {
   task: ITask;
@@ -62,27 +62,24 @@ const TaskItem: React.FC<IProps> = ({
             </div>
             <div className="ml-2 flex flex-shrink-0">
               {!done && (
-                <button
-                  className="relative ml-3 inline-flex items-center rounded-md bg-white px-2 py-1 text-sm font-semibold shadow hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                <Button
+                  size="small"
                   onClick={() =>
                     setEditingTask(_id, { title, description, done })
                   }
                 >
                   <EditIcon
-                    className="-ml-0.5 h-5 w-5 text-green-800"
+                    className="-ml-0.5 h-5 w-5 text-blue-600"
                     aria-hidden="true"
                   />
-                </button>
+                </Button>
               )}
-              <button
-                className="relative ml-3 inline-flex items-center rounded-md bg-white px-2 py-1 text-sm font-semibold shadow hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
-                onClick={onDelete}
-              >
+              <Button size="small" onClick={onDelete} className="ml-2">
                 <TrashIcon
-                  className="-ml-0.5 h-5 w-5 text-red-800"
+                  className="-ml-0.5 h-5 w-5 text-blue-600"
                   aria-hidden="true"
                 />
-              </button>
+              </Button>
             </div>
           </div>
           {showDescription && (
